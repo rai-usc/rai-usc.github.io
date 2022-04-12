@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+    <title>Case Study Reports</title>
+<style>
+
+    body{
+        margin: 0px;
+        padding: 0px;
+    }
+
+    .content{
+        margin: 100px;
+    }
+
+    img {
+        border: 1px solid #555;
+    }
+    li {
+        text-align: left;
+        font-size: 20px;
+    }
+
+    .center {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        
+    }
+
+    p{
+        text-align: left;
+        font-size: 20px;
+    }
+
+    .header{
+        background-color: #eee;
+        height: 100px;
+        text-align: center;
+        font-size: 30px;
+        line-height: 100px;
+    }
+
+</style>
+<body>
+
+    <div class="header">
+        Case Study Reports<br>
+        <!--Made with <span style="color: red;">&hearts;</span> by Sudhanshu Rai-->
+    </div>
+    <div class="content">
+        <h1>Case Study 1: Lending Club Platform
+        </h1>
+        <p>In this case study we analyse the data about loan given to applicants. 
+            I analysed the dataset, did some visualizations, data cleaning and briefly 
+            applied machine learning algorithms to predict the interest rate based 
+            on several parameters.</p>
+        <h2>Dataset analysis
+        </h2>
+        <p>
+            <ul>
+                <li>
+                    There are 10,000 rows in the dataset with 55 columns in it.
+                </li>
+                <li>
+                    45 columns do not have any missing values, while 10 columns have missing values ranging from 10-85%
+                </li>
+                <li>
+
+                    I broke down the dataset into two categories, numerical and categorical and analysed the same.
+                </li>
+            </ul>
+        </p>
+        <img src="./CS1Q1_1.png" height="400px" width="600px" class="center">
+        <p>
+            This table shows the categorical variables, %populated values, number of unique values and the most common value.
+        </p><br><br><br><br>
+        <img src="./CS1Q1_2.png" height="1200px" width="1100px" class="center">
+        <p>
+            This table shows the numerical variables, %populated values, minimum, maximum, mean, std deviation, 
+            %zero, 25 percentile, 50 percentile, 75 percentile, 99 percentile and the 100 percentile values. This helps
+        to find the outliers as well.       </p>
+    <h3> Issues with data:</h3>
+
+    <p>
+    <ol>
+        <li>As mentioned, 10 columns are with missing values.</li>
+        <li>For missing value imputations, I would need to sit with expert to find out what does missing values mean.</li>
+        <li>Also, for predicting interest rate, there are several column values which are not required. For example, 
+            installments, paid principle, which is information after approving loan, and thus cannot be used for machine learning.</li>
+        <li>Lastly, given the number of columns, we need more data points to cover all the possible cases. Just 10,000 rows is too less.</li>
+        </ol>
+</p><br>
+    <h2>Visualizations</h2>
+    <p>
+        <ul>
+            <li>
+                I performed bivariate analysis, to find any patterns in interest rate with other fields.
+            </li>
+            <li>
+                Following were the most important graphs I came up with:
+            </li>
+        </ul>
+    </p>
+    </div>
+    
+        
+    
+    
+</div>
+
+    <div class="content">
+    <img src="./CS1Q2_2.png" height="600px" width="1100px" class="center">
+    <p> The first graph shows the median interest rate offered depending on purpose of loan. The graph corroborated the inuition that interest rate varies dependiing on type of loan.
+    </p><br><br><br>
+    <img src="./CS1Q2_1.png" height="800px" width="900px" class="center">
+    <p>Here I found that the interest rate varies depends on the type of state you are living in. 
+        Later I grouped the states together based on this visualization to handle categorical 
+        variables.</p><br><br><br><br>
+    <img src="./CS1Q2_3.png" height="500px" width="500px" class="center">
+    <p>The type of applicant has an impact too, where joint applicants interest rates are higher.</p><br><br><br><br>
+    <img src="./CS1Q2_4.png" height="500px" width="500px" class="center">
+    <p>Applicant with mortgaged house gets lowest interest rate, while those on rent are riskier applicants.</p><br><br><br><br>
+    <img src="./CS1Q2_5.png" height="600px" width="700px" class="center">
+    <p>While searching for this project, I came to know that number of inquiries made about credit is crucial to find the interest rate offered. We find the similar pattern in this data as well.</p><br><br><br><br>
+    <img src="./CS1Q2_6.png" height="600px" width="700px" class="center">
+    <p>Again, while researching I came to know that the assigned grade is a crucial factor in assigning interest rate which is present in our data as well. </p><br><br><br><br>
+    <img src="./CS1Q2_7.png" height="200px" width="800px" class="center">
+    <p>I classified the debt to income into 3 categories, less than 35, between 35 and 49 and more than 49 and then analysed the average interest rate. The class in which the applicant belongs to is crucial to predict the rate of interest.</p>
+    <br>
+    <br>
+        <h2>
+            Data Cleaning and Feature Engineering
+        </h2>
+        <ul>
+            <li>
+                I dropped fields which I think are not relevant to predict interest rate, also some fields 
+                where a large amount of data is missing. Following columns were removed:<br>'issue_month',
+                'loan_status', 'initial_listing_status', 'disbursement_method',
+                'balance', 'paid_total', 'paid_principal', 'paid_interest',
+                'paid_late_fees', 'emp_title', 'emp_length', 'months_since_90d_late', 'months_since_last_delinq'
+                 , 'verification_income_joint', 'debt_to_income_joint', 'num_accounts_120d_past_due', 'term' and 'installment'.
+            </li>
+            <br><br>
+            <li>
+                <b>Annual Income:</b> I saw that, there were different values for annual_income and annual_income_joint. Only 1400 values were available in annual_income_joint, thus I took the maximum of annual income and annual income joint values. This is under assumption, that annual income represents the first applicant's income, while annual income joint shows the combined income of all applicants.
+            </li><br><br>
+            <li>
+                <b>Debt to income:</b> I filled the missing values with the median value of dataset.
+            </li><br><br>
+            <li>
+                <b>Months since last credit inquiry:</b> Based on above visualization, I categorized this field into 4 categories, 'less than 3','between 4 and 8','between 9 and 19' and 'greater than 19' to better handle this field.
+            </li><br><br>
+            <li>
+                <b>State:</b> I divided the state into 6 categories, based on median interest rate offered in various states. This helped me to reduce the cardinality of state column and handle data better.
+            </li><br><br>
+            <li>
+                <b>Handling categorical variables (Target encoding):</b> I encoded categorical variables using target encoding to convert text into numbers for ML algorithms.
+            </li><br><br>
+            <li>
+                <b>Feature Selection:</b> I used forward feature selection to predict top features for our model, using root mean squared error as the scoring method.
+                <img src="./CS1Q3_1.png" height="300px" width="800px" class="center">
+            </li><br><br>
+            <li><b>Top 9 features:</b> Based on above method we selected following 9 variables for our machine learning method:
+                <br><br>
+                <ol>
+                    <li>
+                        num_collections_last_12m
+                    </li>
+                    <li>
+                        num_historical_failed_to_pay
+                    </li>
+                    <li>
+                        current_accounts_delinq
+                    </li>
+                    <li>
+                        num_accounts_30d_past_due
+                    </li>
+                    <li>
+                        tax_liens
+                    </li>
+                    <li>
+                        public_record_bankrupt
+                    </li>
+                    <li>
+                        grade_encoded
+                    </li>
+                    <li>
+                        sub_grade_encoded
+                    </li>
+                    <li>
+                        application_type_encoded
+                    </li>
+
+                </ol>
+            </li>
+        </ul>
+        <h2>Apply Machine Learning Algorithms:</h2>
+        <h3>1: Linear Regression</h3>
+        <p>
+            <ul>
+                <li>
+                    I used root mean squared error as the metric for our model. Using sckit learn package, I trained my model to predict interest rate on unseen data. (I split the data into 80:20 ratio).
+                </li>
+                <li>
+                    For linear regression, we got RMSE value of 0.07, which according to me is a very low value. 
+                    <br><br>
+                    <img src="./CS1Q4_3.png" height="600px" width="600px" class="center">
+                </li>
+            </ul>
+        </p>
+        <h3>2: Random Forest Regressor</h3>
+        <p>
+            <ul>
+                <li>
+                    I tried to non linear model to predict the interest rate, which generated similar kind of output with RMSE value of 0.078.       
+                    <br><br>
+                    <img src="./CS1Q4_2.png" height="600px" width="600px" class="center">         </li>
+                
+                </ul>
+        </p>
+        <h3>3: Support Vector Regressor</h3>
+        <p>
+            <ul>
+                <li>
+                   This model did not perform so well as compared to other models I used.
+                   <br><br>
+                   <img src="./CS1Q4_1.png" height="600px" width="600px" class="center"></li>
+                   <br>
+                   <li>
+                       I observed that for high interest rate cases, this model did not perform so well.
+                   </li>
+                   
+            </ul>
+        </p>
+        <br><br>
+        <h2>Summary:</h2>
+        <p1>
+            <ul>
+                <li>
+                    If I had more time, I would play around with hyperparameter tuning of different algorithms.
+                </li>
+                <li>
+                    Secondly, as mentioned before, more data points would help us cover more test cases and avoid sparser datasets.
+                </li>
+                <li>
+                    Thirdly, I would love to check the model again as the prediction is very good, and too good prediction can be caused due to several reasons.
+                </li>
+                <li>
+                    Fourthly, I assumed that grade and sub grade is assigned before interest rate determination. If not, I would remove these two fields from prediction 
+                    because they are leading to very good prediction.
+                </li>
+                <li>
+                    For missing values, I would like to sit with an expert and find out what does missing values mean and ways to handle it.
+                </li>
+                <li>
+                    Also, I dropped around 15 columns, assuming that these columns are determined after the loan is given thus not useful in predicting interest rate.
+                </li>
+                <li> Lastly, I would like to play around with different models for wrapping techniques and also use cross validation method for hyperparameter tuning.</li>
+            </ul>
+        </p1>
+    </div>
+</body>
+</html>
